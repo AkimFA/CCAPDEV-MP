@@ -1,0 +1,49 @@
+<html lang="en" dir="ltr">
+    <head>
+    <meta charset="utf-8">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- For icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>CCAPDEV | {{ pageTitle }}</title>
+    
+    </head>
+    <body>
+      
+   
+        {{#if isAuthenticated}}
+        <div class="row">
+            <div class="col s12">
+                <h4>Welcome {{ name }}!</h4>
+            </div>
+            </div>
+
+            <div class="row">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn cyan" href="/posts/add"><i class="material-icons left">add</i>New Post</a>
+            </div>
+            </div>
+
+            {{> post}}
+        {{else}}
+
+        <div class="row" style="margin-top: 2.5em;">
+            <div class="col s12">
+                <a class="waves-effect waves-light btn orange" href="/register"><i class="material-icons left">add</i>New Post</a>
+            </div>
+        </div>
+
+        {{> post}}
+        {{/if}}
+
+         
+        
+    
+       
+    </body>
+</html> 

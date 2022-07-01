@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col s12">
+    {{#if posts}}
+    <h5>Posts</h5>
+    <div class="row">
+      {{#each posts}}
+        {{> card}}
+      {{/each}}
+    </div>
+    {{else}}
+    <h5>No posts yet!</h5>
+    {{/if}}
+  </div>
+</div>
+ 
