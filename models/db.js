@@ -1,86 +1,117 @@
+const { Sequelize, DataTypes } = require('sequelize');
 
-const mongoose = require('mongoose');
+const sequelize = new Sequelize('test4', 'root', '1234', {
+    host: 'localhost',
+    dialect: 'mysql'
+  });
 
-const TransactionModel = require('./TransactionModel.js');
-
-const url = 'mongodb://0.0.0.0:27017/ccapdev-MP';
-
-const options = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-};
+const TransactionModel = sequelize.define('transaction', {
+  name: {
+    type: DataTypes.STRING
+  },
+  refno: {
+    type: DataTypes.INTEGER
+  },
+  amount: {
+    type: DataTypes.FLOAT
+  }
+});
 
 const database = {
-
-    connect: function () {
-        mongoose.connect(url, options, function(error) {
-            if(error) throw error;
-            console.log('Connected to: ' + url);
-        });
-    },
-
-    insertOne: function(model, doc, callback) {
-        model.create(doc, function(error, result) {
-            if(error) return callback(false);
-            console.log('Added ' + result);
-            return callback(true);
-        });
-    },
-
-    insertMany: function(model, docs, callback) {
-        model.insertMany(docs, function(error, result) {
-            if(error) return callback(false);
-            console.log('Added ' + result);
-            return callback(true);
-        });
-    },
-
-    findOne: function(model, query, projection, callback) {
-        model.findOne(query, projection, function(error, result) {
-            if(error) return callback(false);
-            return callback(result);
-        });
-    },
-
-    findMany: function(model, query, projection, callback) {
-        model.find(query, projection, function(error, result) {
-            if(error) return callback(false);
-            return callback(result);
-        });
-    },
-
-    updateOne: function(model, filter, update, callback) {
-        model.updateOne(filter, update, function(error, result) {
-            if(error) return callback(false);
-            console.log('Document modified: ' + result.nModified);
-            return callback(true);
-        });
-    },
-
-    updateMany: function(model, filter, update, callback) {
-        model.updateMany(filter, update, function(error, result) {
-            if(error) return callback(false);
-            console.log('Documents modified: ' + result.nModified);
-            return callback(true);
-        });
-    },
-
-    deleteOne: function(model, conditions, callback) {
-        model.deleteOne(conditions, function (error, result) {
-            if(error) return callback(false);
-            console.log('Document deleted: ' + result.deletedCount);
-            return callback(true);
-        });
-    },
-
-    deleteMany: function(model, conditions, callback) {
-        model.deleteMany(conditions, function (error, result) {
-            if(error) return callback(false);
-            console.log('Document deleted: ' + result.deletedCount);
-            return callback(true);
-        });
+  connect: async function () {
+    try {
+      await sequelize.authenticate();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
     }
+  },
 
-}
+  insertOne: async function (doc, callback) {
+    try {
+      const result = await TransactionModel.create(doc);
+      console.log('Added ' + JSON.stringify(result));
+      return callback(true);
+    } catch (error) {
+      console.error('Error inserting one:', error);
+      return callback(false);
+    }
+  },
+
+  insertMany: async function (docs, callback) {
+    try {
+      const result = await TransactionModel.bulkCreate(docs);
+      console.log('Added ' + JSON.stringify(result));
+      return callback(true);
+    } catch (error) {
+      console.error('Error inserting many:', error);
+      return callback(false);
+    }
+  },
+
+  findOne: async function (query, projection, callback) {
+    try {
+      const result = await TransactionModel.findOne({ where: query, attributes: projection });
+      return callback(result);
+    } catch (error) {
+      console.error('Error finding one:', error);
+      return callback(false);
+    }
+  },
+
+  findMany: async function (query, projection, callback) {
+    try {
+      const result = await TransactionModel.findAll({ where: query, attributes: projection });
+      return callback(result);
+    } catch (error) {
+      console.error('Error finding many:', error);
+      return callback(false);
+    }
+  },
+
+  updateOne: async function (filter, update, callback) {
+    try {
+      const result = await TransactionModel.update(update, { where: filter });
+      console.log('Document modified: ' + result[0]);
+      return callback(true);
+    } catch (error) {
+      console.error('Error updating one:', error);
+      return callback(false);
+    }
+  },
+
+  updateMany: async function (filter, update, callback) {
+    try {
+      const result = await TransactionModel.update(update, { where: filter });
+      console.log('Documents modified: ' + result[0]);
+      return callback(true);
+    } catch (error) {
+      console.error('Error updating many:', error);
+      return callback(false);
+    }
+  },
+
+  deleteOne: async function (conditions, callback) {
+    try {
+      const result = await TransactionModel.destroy({ where: conditions });
+      console.log('Document deleted: ' + result);
+      return callback(true);
+    } catch (error) {
+      console.error('Error deleting one:', error);
+      return callback(false);
+    }
+  },
+
+  deleteMany: async function (conditions, callback) {
+    try {
+      const result = await TransactionModel.destroy({ where: conditions });
+      console.log('Documents deleted: ' + result);
+      return callback(true);
+    } catch (error) {
+      console.error('Error deleting many:', error);
+      return callback(false);
+    }
+  }
+};
 
 module.exports = database;

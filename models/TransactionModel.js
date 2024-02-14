@@ -1,16 +1,32 @@
+const { Sequelize, DataTypes } = require('sequelize');
 
-const { Int32 } = require('mongodb');
-var mongoose = require('mongoose');
-
-/*
-    TODO:   Complete the TransactionSchema which will contain the name,
-            reference number, and the amount of a transaction in the database.
-*/
-
-var TransactionSchema = new mongoose.Schema({
-    name: String,
-    refno: Number,
-    amount: Number
+// Initialize Sequelize with MySQL connection
+const sequelize = new Sequelize('test4', 'root', '1234', {
+  host: 'localhost',
+  dialect: 'mysql'
 });
 
-module.exports = mongoose.model('Transaction', TransactionSchema);
+// Define Transaction model
+const Transaction = sequelize.define('Transaction', {
+  name: {
+    type: DataTypes.STRING
+  },
+  refno: {
+    type: DataTypes.INTEGER
+  },
+  amount: {
+    type: DataTypes.FLOAT
+  }
+});
+
+// Sync the model with the database
+(async () => {
+  try {
+    await sequelize.sync();
+    console.log('Database synchronized');
+  } catch (error) {
+    console.error('Error synchronizing database:', error);
+  }
+})();
+
+module.exports = Transaction;

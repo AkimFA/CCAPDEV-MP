@@ -13,11 +13,11 @@ const controller = {
             request to path `/`. This displays `index.hbs` with all
             transactions currently stored in the database.
     */
-    getIndex: function(req, res) {
-        db.findMany(Transaction, {}, {}, function(transactions){
-            res.render('main', {transactions}); // This is to load the page initially
-        })
-    },
+            getIndex: function(req, res) {
+                db.findMany({}, {}, function(transactions){
+                    res.render('main', {transactions}); // This is to load the page initially
+                });
+            },
 
     /*
     TODO:   This function is executed when the client sends an HTTP GET
