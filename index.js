@@ -28,8 +28,6 @@ app.engine('hbs', exphbs.engine({
           return str.substring(0,100) + '...';
         return str;
       },
-      // Taken from https://gist.github.com/elidupuis/1468937/caec40920ca76302f0fd3b218a763fa118e1901c
-      // usage {{dateFormat creation_date format="MMMM YYYY"}}
       dateFormat: function(context, block) {
         var f = block.hash.format || "MMMM DD YYYY, h:mm a";
         return moment(new Date(context), "YYYY-MM-DDTHH:mm:ss.SSSZ").format(f);

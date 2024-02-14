@@ -1,21 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('test4', 'root', '1234', {
+const sequelize = new Sequelize('test', 'root', '123pass', {
     host: 'localhost',
     dialect: 'mysql'
   });
 
-const TransactionModel = sequelize.define('transaction', {
-  name: {
-    type: DataTypes.STRING
-  },
-  refno: {
-    type: DataTypes.INTEGER
-  },
-  amount: {
-    type: DataTypes.FLOAT
-  }
-});
+  const Transaction = sequelize.define('users', {
+    username: {
+      type: DataTypes.STRING
+    },
+    password: {
+      type: DataTypes.STRING
+    }
+  });
 
 const database = {
   connect: async function () {

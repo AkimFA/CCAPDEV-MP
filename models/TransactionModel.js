@@ -1,21 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 // Initialize Sequelize with MySQL connection
-const sequelize = new Sequelize('test4', 'root', '1234', {
+const sequelize = new Sequelize('test', 'root', '123pass', {
   host: 'localhost',
   dialect: 'mysql'
 });
 
 // Define Transaction model
-const Transaction = sequelize.define('Transaction', {
-  name: {
+const Transaction = sequelize.define('users', {
+  username: {
     type: DataTypes.STRING
   },
-  refno: {
-    type: DataTypes.INTEGER
-  },
-  amount: {
-    type: DataTypes.FLOAT
+  password: {
+    type: DataTypes.STRING
   }
 });
 

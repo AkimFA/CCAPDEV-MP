@@ -14,9 +14,10 @@ const controller = {
             transactions currently stored in the database.
     */
             getIndex: function(req, res) {
-                db.findMany({}, {}, function(transactions){
-                    res.render('main', {transactions}); // This is to load the page initially
-                });
+                res.render('home');
+                // db.findMany({}, {}, function(transactions){
+                //     res.render('main', {transactions}); // This is to load the page initially
+                // });
             },
 
     /*
@@ -48,10 +49,9 @@ const controller = {
         var iAmount = req.query.amount;
 
 
-        var transaction = {
-            name: iName,
-            refno: iRefno,
-            amount: iAmount
+        var user = {
+            username: iName,
+            password: iRefno
         };
 
         db.insertOne(Transaction, transaction, function(result)
